@@ -1,0 +1,63 @@
+﻿@model EmployeeDetailsVM
+
+<div class="field is-horizontal">
+    <div class="field-label is-normal">
+        <label class="label">Skillset</label>
+    </div>
+
+    <div class="field-body">
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <div class="select is-fullwidth">
+                    <select id="newSkillOptions" asp-items="Model.NewSkillOptions">
+                        <option value="new">Add new...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control">
+                <button id="addNewSkillBtn" type="button" class="button is-info">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="field is-horizontal">
+    <div class="field-label"></div>
+    <div class="field-body">
+        <div id="skillTagsDiv" class="box field is-grouped is-grouped-multiline">
+            @if (Model.Skills.Count == 0)
+            {
+                <p>No skills</p>
+            }
+            else
+            {
+                @foreach (var s in Model.Skills)
+                {
+                    <div class="control">
+                        <div class="tags has-addons">
+                            <span class="tag is-info">@s.Name</span>
+                            <span class="tag is-delete"></span>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+<div id="hiddenSkillsList">
+    @for (int i = 0; i < Model.SkillIds.Count; i++)
+    {
+        <input asp-for="SkillIds[i]" hidden />
+    }
+</div>
+
+
+<div id="addNewSkillModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <partial name="/Views/Skills/_InstantCreate.cshtml" model="@new Skill()" />
+    </div>
+    <button type="button" class="modal-close is-large" aria-label="close"></button>
+</div>

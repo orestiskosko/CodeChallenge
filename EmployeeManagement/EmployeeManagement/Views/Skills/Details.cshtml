@@ -1,0 +1,71 @@
+﻿@model Skill
+@{
+    ViewData["Title"] = "Skill Details";
+}
+
+
+<section class="section">
+    <div class="container">
+
+        <p class="title">Skill Details</p>
+
+        <div class="columns">
+            <div class="column is-half-desktop">
+                <form method="post">
+
+                    <input asp-for="Id" hidden />
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" asp-for="Name"></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" asp-for="Name" />
+                                </div>
+                                <span asp-validation-for="Name" class="help is-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" asp-for="Description"></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <input class="input" asp-for="Description" />
+                                <span asp-validation-for="Description" class="help is-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" asp-for="CreationDate"></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <input class="input" asp-for="CreationDate" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label"></div>
+                        <div class="field-body">
+                            <div class="buttons">
+                                <a class="button is-info" asp-action="Index">Back</a>
+                                <button type="submit" class="button is-primary" asp-action="Update">Update</button>
+                                <button type="submit" class="button is-danger" asp-action="Delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</section>

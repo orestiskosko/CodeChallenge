@@ -1,0 +1,11 @@
+﻿@model NotificationVM
+
+@if (!string.IsNullOrWhiteSpace(Model?.Message))
+{
+    <div class="section">
+        <div class="notification has-text-centered @Model.StatusClass">
+            <button class="delete"></button>
+            <span>@Model.Message</span>
+        </div>
+    </div>
+}

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Skill>
+@{
+    ViewData["Title"] = "Skills";
+}
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <p class="title">Skills</p>
+                </div>
+            </div>
+
+            <div class="level-right">
+                <div class="level-item">
+                    <form method="post">
+                        <button type="submit" class="button is-info" asp-action="Export">
+                            <span class="icon is-small">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span>Export</span>
+                        </button>
+                    </form>
+                </div>
+                <div class="level-item">
+                    <a class="button is-info" asp-action="Create">
+                        <span class="icon is-small">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span>Create</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <table class="table is-hoverable is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Creation Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.Name</td>
+                    <td>@s.Description</td>
+                    <td>@s.CreationDate.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@s.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</section>

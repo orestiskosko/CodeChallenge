@@ -1,0 +1,176 @@
+﻿@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<section class="section">
+    <div class="container">
+
+        <div class="level">
+            <div class="level-left">
+
+                <div class="level-item">
+                    <p class="title">Employees</p>
+                </div>
+
+            </div>
+
+            <div class="level-right">
+
+                <div class="level-item">
+                    <form>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input class="input" type="text" name="SearchString" placeholder="Find an employee" value="@ViewBag.SearchString">
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-info" asp-action="Index">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="level-item">
+                    <form>
+                        <div class="field has-addons is-marginless">
+                            <div class="control">
+                                <div class="select">
+                                    <select id="orderingOption" name="OrderingOption">
+                                        <option value="surnameAsc">Surname Ascending</option>
+                                        <option value="surnameDesc">Surname Descending</option>
+                                        <option value="hiringDateAsc">Hiring Date Ascending</option>
+                                        <option value="hiringDateDesc">Hiring Date Descending</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-info" asp-action="Index">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="level-item">
+                    <a class="button is-info" asp-action="Create">
+                        <span class="icon is-small">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span>Create</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <table class="table is-hoverable is-fullwidth">
+            <thead>
+                <tr>
+                    <th class="is-narrow">
+                        <button id="deleteMultipleBtn" class="button is-small is-danger is-inverted has-outline has-icon" disabled>
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </th>
+                    <th>First Name</th>
+                    <th>Surname</th>
+                    <th>Hiring Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            @{
+                int counter = 0;
+                foreach (var e in Model)
+                {
+                    <tr>
+                        <td class="has-text-centered">
+                            <input id="deleteCheckbox_@counter" type="checkbox" value="@e.Id" />
+                        </td>
+                        <td>@e.FirstName</td>
+                        <td>@e.Surname</td>
+                        <td>@e.HiringDate.ToShortDateString()</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@e.Id">Details</a>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            }
+        </table>
+
+    </div>
+</section>
+
+
+
+
+@section Scripts{
+    <script>
+
+        const currentOrderingOption = '@ViewBag.OrderingOption';
+        console.log(currentOrderingOption);
+        if (currentOrderingOption !== '') {
+            document.getElementById('orderingOption').value = currentOrderingOption;
+        }
+
+        const deleteMultipleBtn = document.getElementById('deleteMultipleBtn');
+        const deleteCheckboxes = document.querySelectorAll('input[type=checkbox]');
+        let deleteCheckboxStates = [];
+        deleteCheckboxes.forEach(el => {
+            deleteCheckboxStates.push(el.checked);
+        });
+
+        deleteCheckboxes.forEach(el => {
+            el.addEventListener('change',
+                () => {
+                    updateDeleteCheckboxStates();
+                });
+        });
+
+
+        deleteMultipleBtn.addEventListener('click',
+            () => {
+
+                const employeeIds = [];
+                deleteCheckboxes.forEach(el => {
+                    if (el.checked === true) {
+                        employeeIds.push({id: el.value});
+                    }
+                });
+
+                if (confirm('Are you sure you want to delete the selected employees?')) {
+                    fetch('Employees/DeleteMultiple',
+                            {
+                                method: 'POST',
+                                body: JSON.stringify(employeeIds),
+                                headers: { 'Content-Type' : 'application/json'}
+                            })
+                        .then(response => {
+                            console.log(response);
+                            window.location.href = response.url;
+                        })
+                        .catch(error => console.log(error));
+                }
+            });
+
+
+        function updateDeleteCheckboxStates() {
+            deleteCheckboxes.forEach((el, key) => {
+                deleteCheckboxStates[key] = el.checked;
+            });
+            updateDeleteBtnState();
+        }
+
+        function updateDeleteBtnState() {
+            if (deleteCheckboxStates.some(el => { return el === true; })) {
+                deleteMultipleBtn.disabled = false;
+            } else {
+                deleteMultipleBtn.disabled = true;
+            }
+        }
+
+    </script>
+}

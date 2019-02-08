@@ -1,0 +1,76 @@
+﻿@model EmployeeDetailsVM
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<section class="section">
+    <div class="container">
+
+        <p class="title">Create Employee</p>
+        <div asp-validation-summary="All"></div>
+
+        <div class="columns">
+            <div class="column is-half-desktop">
+                <form method="post">
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" asp-for="FirstName"></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" asp-for="FirstName" />
+                                    <span asp-validation-for="FirstName" class="help is-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" asp-for="Surname"></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <input class="input" asp-for="Surname" />
+                                <span asp-validation-for="Surname" class="help is-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" asp-for="HiringDate"></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <input class="input" type="date" value="" asp-for="HiringDate" />
+                                <span asp-validation-for="HiringDate" class="help is-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <partial name="_SkillEditor" model="Model" />
+
+                    <div class="field is-horizontal">
+                        <div class="field-label"></div>
+                        <div class="field-body">
+                            <div class="buttons">
+                                <a class="button is-info" asp-action="Index">Back</a>
+                                <button type="submit" class="button is-primary" asp-action="Create">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+@section Scripts{
+    <script src="~/js/skillsEdit.js"></script>
+}
